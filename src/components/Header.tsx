@@ -5,8 +5,10 @@ import {
   Mic, 
   Globe, 
   Menu,
-  MicOff
+  MicOff,
+  LogIn
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface HeaderProps {
   language: string;
@@ -17,6 +19,7 @@ interface HeaderProps {
 
 const Header = ({ language, setLanguage, isListening, onVoiceToggle }: HeaderProps) => {
   const languages = ['English', 'हिंदी', 'বাংলা', 'தமிழ்', 'తెలుగు'];
+  const navigate = useNavigate();
 
   return (
     <header className="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
@@ -60,6 +63,17 @@ const Header = ({ language, setLanguage, isListening, onVoiceToggle }: HeaderPro
               <span className="ml-2 hidden sm:inline">
                 {isListening ? "Stop" : "Voice"}
               </span>
+            </Button>
+
+            {/* Login Button */}
+            <Button
+              variant="default"
+              size="sm"
+              onClick={() => navigate('/login')}
+              className="bg-blue-600 hover:bg-blue-700"
+            >
+              <LogIn className="w-4 h-4" />
+              <span className="ml-2 hidden sm:inline">Login</span>
             </Button>
 
             {/* Status Badge */}
