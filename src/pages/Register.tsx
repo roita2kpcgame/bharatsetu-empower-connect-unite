@@ -10,20 +10,21 @@ import {
   Shield, 
   Chrome,
   ArrowLeft,
-  CheckCircle
+  CheckCircle,
+  UserPlus
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import PhoneOTPLogin from '@/components/auth/PhoneOTPLogin';
-import EmailPasswordLogin from '@/components/auth/EmailPasswordLogin';
-import DigiLockerLogin from '@/components/auth/DigiLockerLogin';
-import GoogleLogin from '@/components/auth/GoogleLogin';
+import PhoneOTPRegister from '@/components/auth/PhoneOTPRegister';
+import EmailPasswordRegister from '@/components/auth/EmailPasswordRegister';
+import DigiLockerRegister from '@/components/auth/DigiLockerRegister';
+import GoogleRegister from '@/components/auth/GoogleRegister';
 
-const Login = () => {
+const Register = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('phone');
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-green-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-orange-50 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Header */}
         <div className="text-center mb-8">
@@ -42,16 +43,19 @@ const Login = () => {
             </div>
             <div>
               <h1 className="text-2xl font-bold text-gray-900">BharatSetu</h1>
-              <p className="text-sm text-gray-600">Secure Login Portal</p>
+              <p className="text-sm text-gray-600">Create New Account</p>
             </div>
           </div>
-          <p className="text-gray-600">Choose your preferred login method</p>
+          <p className="text-gray-600">Join BharatSetu today</p>
         </div>
 
-        {/* Login Card */}
+        {/* Registration Card */}
         <Card className="shadow-2xl border-0 bg-white/80 backdrop-blur-md">
           <CardHeader className="text-center pb-2">
-            <CardTitle className="text-xl text-gray-800">Welcome Back</CardTitle>
+            <CardTitle className="text-xl text-gray-800 flex items-center justify-center">
+              <UserPlus className="w-5 h-5 mr-2" />
+              Create Account
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
@@ -75,19 +79,19 @@ const Login = () => {
               </TabsList>
 
               <TabsContent value="phone">
-                <PhoneOTPLogin />
+                <PhoneOTPRegister />
               </TabsContent>
 
               <TabsContent value="email">
-                <EmailPasswordLogin />
+                <EmailPasswordRegister />
               </TabsContent>
 
               <TabsContent value="digilocker">
-                <DigiLockerLogin />
+                <DigiLockerRegister />
               </TabsContent>
 
               <TabsContent value="google">
-                <GoogleLogin />
+                <GoogleRegister />
               </TabsContent>
             </Tabs>
 
@@ -95,13 +99,13 @@ const Login = () => {
             
             <div className="text-center">
               <p className="text-sm text-gray-600 mb-4">
-                Don't have an account?{' '}
+                Already have an account?{' '}
                 <Button 
                   variant="link" 
                   className="p-0 h-auto text-blue-600"
-                  onClick={() => navigate('/register')}
+                  onClick={() => navigate('/login')}
                 >
-                  Register Now
+                  Sign In
                 </Button>
               </p>
               
@@ -115,11 +119,11 @@ const Login = () => {
 
         {/* Footer */}
         <div className="text-center mt-6 text-xs text-gray-500">
-          <p>Protected by advanced encryption • Privacy Policy • Terms of Service</p>
+          <p>By registering, you agree to our Terms of Service and Privacy Policy</p>
         </div>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default Register;
