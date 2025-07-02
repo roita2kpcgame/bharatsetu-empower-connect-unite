@@ -9,6 +9,10 @@ import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Account from "./pages/Account";
+import YuvaRojgar from "./pages/YuvaRojgar";
+import SwasthyaMitra from "./pages/SwasthyaMitra";
+import KanoonSathi from "./pages/KanoonSathi";
+import SamasyaReport from "./pages/SamasyaReport";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -25,6 +29,10 @@ const App = () => (
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/account" element={<Account />} />
+            <Route path="/yuva-rojgar" element={<YuvaRojgar />} />
+            <Route path="/swasthya-mitra" element={<SwasthyaMitra />} />
+            <Route path="/kanoon-sathi" element={<KanoonSathi />} />
+            <Route path="/samasya-report" element={<SamasyaReport />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
