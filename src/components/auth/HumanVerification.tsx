@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -11,7 +10,7 @@ import {
   CheckCircle,
   AlertCircle,
   Bot,
-  Refresh
+  RefreshCw
 } from 'lucide-react';
 
 interface HumanVerificationProps {
@@ -120,7 +119,7 @@ const HumanVerification = ({ onVerificationComplete, verificationLevel }: HumanV
                 Verify
               </Button>
               <Button onClick={generateMathChallenge} variant="outline" size="sm">
-                <Refresh className="w-4 h-4" />
+                <RefreshCw className="w-4 h-4" />
               </Button>
             </div>
           </div>
