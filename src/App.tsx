@@ -13,6 +13,7 @@ import YuvaRojgar from "./pages/YuvaRojgar";
 import SwasthyaMitra from "./pages/SwasthyaMitra";
 import KanoonSathi from "./pages/KanoonSathi";
 import SamasyaReport from "./pages/SamasyaReport";
+import ModuleLauncher from "./pages/ModuleLauncher";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -29,6 +30,7 @@ const App = () => (
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/account" element={<Account />} />
+            <Route path="/modules" element={<ModuleLauncher />} />
             <Route path="/yuva-rojgar" element={<YuvaRojgar />} />
             <Route path="/swasthya-mitra" element={<SwasthyaMitra />} />
             <Route path="/kanoon-sathi" element={<KanoonSathi />} />

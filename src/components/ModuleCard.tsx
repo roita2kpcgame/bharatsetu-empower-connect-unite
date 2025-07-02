@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ArrowRight, Star } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface Module {
   id: string;
@@ -20,6 +21,23 @@ interface ModuleCardProps {
 
 const ModuleCard = ({ module }: ModuleCardProps) => {
   const IconComponent = module.icon;
+  const navigate = useNavigate();
+
+  const handleLaunchModule = () => {
+    // Route to specific module pages
+    const routes: { [key: string]: string } = {
+      'swasthya': '/swasthya-mitra',
+      'kanoon': '/kanoon-sathi',
+      'yuva': '/yuva-rojgar',
+      'samasya': '/samasya-report'
+    };
+    
+    navigate(routes[module.id] || '/modules');
+  };
+
+  const handleLearnMore = () => {
+    navigate('/modules');
+  };
 
   return (
     <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-l-4 border-l-transparent hover:border-l-blue-500 overflow-hidden">
@@ -64,11 +82,19 @@ const ModuleCard = ({ module }: ModuleCardProps) => {
         </div>
 
         <div className="flex space-x-3">
-          <Button className="flex-1 group/btn" size="sm">
+          <Button 
+            onClick={handleLaunchModule}
+            className="flex-1 group/btn" 
+            size="sm"
+          >
             Launch Module
             <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
           </Button>
-          <Button variant="outline" size="sm">
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={handleLearnMore}
+          >
             Learn More
           </Button>
         </div>

@@ -1,11 +1,10 @@
-
 import { useState } from 'react';
 import { TranslationProvider, useTranslation } from '@/contexts/TranslationContext';
 import Header from '@/components/Header';
 import ModuleCard from '@/components/ModuleCard';
 import StatsSection from '@/components/StatsSection';
 import Footer from '@/components/Footer';
-import AIChat from '@/components/AIChat';
+import EnhancedAIChat from '@/components/EnhancedAIChat';
 import AIContextualHelp from '@/components/AIContextualHelp';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -26,15 +25,19 @@ import {
   Bot,
   Sparkles,
   Zap,
-  Brain
+  Brain,
+  ArrowRight,
+  Rocket
 } from 'lucide-react';
 import { useAdvancedAI } from '@/hooks/useAdvancedAI';
+import { useNavigate } from 'react-router-dom';
 
 const IndexContent = () => {
   const [isListening, setIsListening] = useState(false);
   const [showAIHelp, setShowAIHelp] = useState(false);
   const { t } = useTranslation();
   const { activateAI, deactivateAI } = useAdvancedAI();
+  const navigate = useNavigate();
 
   const modules = [
     {
@@ -142,11 +145,11 @@ const IndexContent = () => {
             </Button>
             
             <Button
-              variant="outline"
-              className="border-2 border-blue-300 text-blue-600 hover:bg-blue-50 px-6 py-3 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+              onClick={() => navigate('/modules')}
+              className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
             >
-              <Zap className="w-5 h-5 mr-2" />
-              Quick Start
+              <Rocket className="w-5 h-5 mr-2" />
+              Launch Modules
             </Button>
             
             <Button
@@ -195,9 +198,17 @@ const IndexContent = () => {
               <Sparkles className="w-6 h-6 text-yellow-500 animate-pulse" />
             </div>
           </div>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+          <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-6">
             Next-generation AI-powered solutions designed specifically for India's diverse needs with advanced machine learning and real-time analytics
           </p>
+          <Button
+            onClick={() => navigate('/modules')}
+            variant="outline"
+            className="border-2 border-purple-300 text-purple-600 hover:bg-purple-50 px-6 py-2 rounded-full"
+          >
+            View All Modules
+            <ArrowRight className="w-4 h-4 ml-2" />
+          </Button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
@@ -285,7 +296,7 @@ const IndexContent = () => {
       </section>
 
       <Footer />
-      <AIChat />
+      <EnhancedAIChat />
       
       {/* AI Contextual Help */}
       <AIContextualHelp
