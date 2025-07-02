@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -24,7 +23,8 @@ import {
   MessageSquare,
   X,
   Minimize2,
-  Maximize2
+  Maximize2,
+  Shield
 } from 'lucide-react';
 import { useTranslation } from '@/contexts/TranslationContext';
 import { useAdvancedAI } from '@/hooks/useAdvancedAI';
