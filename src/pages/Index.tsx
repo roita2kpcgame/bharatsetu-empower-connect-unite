@@ -6,6 +6,7 @@ import StatsSection from '@/components/StatsSection';
 import Footer from '@/components/Footer';
 import EnhancedAIChat from '@/components/EnhancedAIChat';
 import AIContextualHelp from '@/components/AIContextualHelp';
+import SmartSearchBar from '@/components/SmartSearchBar';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -79,14 +80,31 @@ const IndexContent = () => {
   ];
 
   const upcomingModules = [
-    { name: 'PathShaala+', icon: BookOpen, description: 'AI-Powered Smart Study Portal with personalized learning paths', color: 'from-purple-500 to-indigo-500' },
-    { name: 'KrishiBandhu', icon: Sprout, description: 'Advanced Farming AI with crop prediction and market analysis', color: 'from-green-600 to-emerald-500' },
-    { name: 'AbleAccess Map', icon: MapPin, description: 'Accessibility mapping with AR navigation for differently-abled', color: 'from-blue-500 to-cyan-500' }
+    { 
+      name: 'PathShaala+', 
+      icon: BookOpen, 
+      description: 'AI-Powered Smart Study Portal with personalized learning paths and AI animated video lectures for all age groups', 
+      color: 'from-purple-500 to-indigo-500',
+      route: '/pathshaala-plus'
+    },
+    { 
+      name: 'KrishiBandhu', 
+      icon: Sprout, 
+      description: 'Advanced Farming AI with crop prediction, market analysis, and real-time news integration', 
+      color: 'from-green-600 to-emerald-500',
+      route: '/krishi-bandhu'
+    },
+    { 
+      name: 'AbleAccess Map', 
+      icon: MapPin, 
+      description: 'Accessibility mapping with AR navigation for differently-abled using camera integration', 
+      color: 'from-blue-500 to-cyan-500',
+      route: '/able-access-map'
+    }
   ];
 
   const handleVoiceToggle = () => {
     setIsListening(!isListening);
-    // Enhanced voice recognition logic would go here
   };
 
   const toggleAIHelp = () => {
@@ -131,8 +149,13 @@ const IndexContent = () => {
             {t('all_in_one_platform')}
           </p>
           <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto animate-fade-in" style={{ animationDelay: '0.4s' }}>
-            {t('one_app_multiple_solutions')}
+            One App Multiple Solutions Infinite Impact
           </p>
+
+          {/* Smart Search Bar */}
+          <div className="animate-fade-in mb-8" style={{ animationDelay: '0.3s' }}>
+            <SmartSearchBar />
+          </div>
 
           {/* Enhanced Action Buttons */}
           <div className="flex flex-wrap justify-center gap-4 mb-8 animate-fade-in" style={{ animationDelay: '0.6s' }}>
@@ -239,8 +262,9 @@ const IndexContent = () => {
           {upcomingModules.map((module, index) => (
             <Card 
               key={index} 
-              className="text-center p-6 hover:shadow-2xl transition-all duration-500 border-dashed border-2 border-gray-300 hover-scale animate-fade-in relative overflow-hidden group"
+              className="text-center p-6 hover:shadow-2xl transition-all duration-500 border-dashed border-2 border-gray-300 hover-scale animate-fade-in relative overflow-hidden group cursor-pointer"
               style={{ animationDelay: `${0.3 * index}s` }}
+              onClick={() => navigate(module.route)}
             >
               <div className={`absolute inset-0 bg-gradient-to-r ${module.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
               <CardContent className="pt-6 relative z-10">
