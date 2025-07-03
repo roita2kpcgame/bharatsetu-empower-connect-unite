@@ -11,7 +11,7 @@ import {
   ArrowLeft,
   Eye,
   Ear,
-  accessibility,
+  Accessibility,
   Heart,
   Brain,
   Phone,
@@ -36,7 +36,7 @@ const AbleAccessMap = () => {
 
   const accessibilityFeatures = [
     { 
-      icon: accessibility, 
+      icon: Accessibility, 
       title: 'Wheelchair Access', 
       desc: 'Find wheelchair-accessible routes and facilities',
       color: 'from-blue-500 to-cyan-600'
