@@ -1,4 +1,5 @@
-import { useState } from 'react';
+
+import { useState, useRef, useEffect } from 'react';
 import { TranslationProvider, useTranslation } from '@/contexts/TranslationContext';
 import Header from '@/components/Header';
 import ModuleCard from '@/components/ModuleCard';
@@ -6,6 +7,8 @@ import StatsSection from '@/components/StatsSection';
 import Footer from '@/components/Footer';
 import EnhancedAIChat from '@/components/EnhancedAIChat';
 import AIContextualHelp from '@/components/AIContextualHelp';
+import SmartSearchBar from '@/components/SmartSearchBar';
+import GPSLocationTracker from '@/components/GPSLocationTracker';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -27,7 +30,13 @@ import {
   Zap,
   Brain,
   ArrowRight,
-  Rocket
+  Rocket,
+  Search,
+  Volume2,
+  Waves,
+  Star,
+  Camera,
+  Navigation
 } from 'lucide-react';
 import { useAdvancedAI } from '@/hooks/useAdvancedAI';
 import { useNavigate } from 'react-router-dom';
@@ -35,19 +44,29 @@ import { useNavigate } from 'react-router-dom';
 const IndexContent = () => {
   const [isListening, setIsListening] = useState(false);
   const [showAIHelp, setShowAIHelp] = useState(false);
+  const [showSmartSearch, setShowSmartSearch] = useState(false);
+  const [userLocation, setUserLocation] = useState<{lat: number, lng: number} | null>(null);
   const { t } = useTranslation();
   const { activateAI, deactivateAI } = useAdvancedAI();
   const navigate = useNavigate();
+  const audioContextRef = useRef<AudioContext | null>(null);
+
+  // Initialize audio visualization
+  useEffect(() => {
+    if (typeof window !== 'undefined' && 'AudioContext' in window) {
+      audioContextRef.current = new AudioContext();
+    }
+  }, []);
 
   const modules = [
     {
       id: 'swasthya',
       title: t('swasthyamitra'),
       subtitle: t('ai_health_assistant'),
-      description: 'Advanced AI-powered symptom analysis with real-time health monitoring, nearby clinic suggestions with live availability, and seamless Ayushman Bharat integration',
+      description: 'Revolutionary healthcare platform with AI-powered diagnosis, hospital finder, telemedicine, and Ayushman Bharat integration with real-time health monitoring',
       icon: Heart,
       color: 'from-red-500 to-pink-600',
-      features: ['AI Symptom Analysis', 'Smart Hospital Locator', 'Voice Health Check', 'Predictive Health Insights', 'Medicine Reminders', 'Telemedicine Integration']
+      features: ['AI Symptom Analysis', 'Smart Hospital Locator', 'Voice Health Check', 'Predictive Health Insights', 'Medicine Reminders', 'Telemedicine Integration', 'Emergency Response', 'Health Insurance Claims']
     },
     {
       id: 'kanoon',
@@ -56,7 +75,7 @@ const IndexContent = () => {
       description: 'AI-powered legal document generator with natural language processing, expert consultation booking, and real-time case tracking with blockchain verification',
       icon: Scale,
       color: 'from-blue-500 to-indigo-600',
-      features: ['Smart Document Templates', 'AI Legal Advisor', 'Expert Video Consultation', 'Blockchain Case Tracking', 'Rights Awareness Bot', 'Multi-language Legal Help']
+      features: ['Smart Document Templates', 'AI Legal Advisor', 'Expert Video Consultation', 'Blockchain Case Tracking', 'Rights Awareness Bot', 'Multi-language Legal Help', 'Court Fee Calculator', 'Legal Aid Integration']
     },
     {
       id: 'yuva',
@@ -65,28 +84,48 @@ const IndexContent = () => {
       description: 'Revolutionary AI career matching with personalized skill development, real-time job market analysis, and integrated government scheme recommendations',
       icon: Briefcase,
       color: 'from-green-500 to-emerald-600',
-      features: ['AI Skill Assessment', 'Smart Job Matching', 'PMKVY Integration', 'Interview AI Coach', 'Salary Predictor', 'Career Path Planner']
+      features: ['AI Skill Assessment', 'Smart Job Matching', 'PMKVY Integration', 'Interview AI Coach', 'Salary Predictor', 'Career Path Planner', 'Resume Builder', 'Market Analysis']
     },
     {
       id: 'samasya',
       title: t('samasya_report'),
       subtitle: t('civic_issue_reporter'),
-      description: 'Next-gen civic engagement with AI-powered issue categorization, real-time photo analysis, GPS tracking, and direct municipality integration with automated follow-ups',
+      description: 'Next-gen civic engagement with AI-powered issue categorization, real-time photo analysis, GPS tracking, and direct municipality integration',
       icon: AlertCircle,
       color: 'from-orange-500 to-amber-600',
-      features: ['AI Issue Detection', 'Smart Photo Analysis', 'Real-time GPS Tracking', 'Auto Municipality Routing', 'Community Impact Scoring', 'Predictive Issue Prevention']
+      features: ['AI Issue Detection', 'Smart Photo Analysis', 'Real-time GPS Tracking', 'Auto Municipality Routing', 'Community Impact Scoring', 'Predictive Issue Prevention', 'Citizen Feedback', 'Government Response Portal']
     }
   ];
 
   const upcomingModules = [
-    { name: 'PathShaala+', icon: BookOpen, description: 'AI-Powered Smart Study Portal with personalized learning paths', color: 'from-purple-500 to-indigo-500' },
-    { name: 'KrishiBandhu', icon: Sprout, description: 'Advanced Farming AI with crop prediction and market analysis', color: 'from-green-600 to-emerald-500' },
-    { name: 'AbleAccess Map', icon: MapPin, description: 'Accessibility mapping with AR navigation for differently-abled', color: 'from-blue-500 to-cyan-500' }
+    { 
+      name: 'PathShaala+', 
+      icon: BookOpen, 
+      description: 'AI-Powered Smart Study Portal with personalized learning paths and animated video lectures', 
+      color: 'from-purple-500 to-indigo-500',
+      route: '/pathshaala-plus',
+      features: ['AI Video Lectures', 'Personalized Learning', 'Exam Preparation', 'Multi-Age Support']
+    },
+    { 
+      name: 'KrishiBandhu', 
+      icon: Sprout, 
+      description: 'Advanced Farming AI with crop prediction, market analysis and real-time agricultural news', 
+      color: 'from-green-600 to-emerald-500',
+      route: '/krishi-bandhu',
+      features: ['Crop Prediction', 'Market Analysis', 'Weather Forecasting', 'Real-time News']
+    },
+    { 
+      name: 'AbleAccess Map', 
+      icon: MapPin, 
+      description: 'Accessibility mapping with AR navigation and camera-based assistance for differently-abled', 
+      color: 'from-blue-500 to-cyan-500',
+      route: '/able-access-map',
+      features: ['AR Navigation', 'Camera Integration', 'Voice Guidance', 'Accessibility Mapping']
+    }
   ];
 
   const handleVoiceToggle = () => {
     setIsListening(!isListening);
-    // Enhanced voice recognition logic would go here
   };
 
   const toggleAIHelp = () => {
@@ -99,13 +138,20 @@ const IndexContent = () => {
     }
   };
 
+  const handleLocationFound = (location: {lat: number, lng: number}) => {
+    setUserLocation(location);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-green-50 relative overflow-hidden">
-      {/* Animated Background Elements */}
+      {/* Animated Background Elements with Cultural Touch */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-gradient-to-r from-blue-400/10 to-purple-400/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-gradient-to-r from-saffron-400/10 to-orange-400/10 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-green-400/10 to-blue-400/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute top-1/2 left-1/2 w-32 h-32 bg-gradient-to-r from-orange-400/10 to-red-400/10 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-1/2 left-1/2 w-32 h-32 bg-gradient-to-r from-blue-400/10 to-indigo-400/10 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        
+        {/* Cultural Pattern Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-orange-100/5 to-green-100/5 animate-pulse" style={{ animationDelay: '3s' }}></div>
       </div>
 
       <Header 
@@ -113,7 +159,7 @@ const IndexContent = () => {
         onVoiceToggle={handleVoiceToggle}
       />
       
-      {/* Enhanced Hero Section */}
+      {/* Enhanced Hero Section with Smart Search */}
       <section className="container mx-auto px-4 pt-8 pb-16 animate-fade-in relative">
         <div className="text-center mb-12">
           <div className="flex justify-center mb-6">
@@ -124,6 +170,9 @@ const IndexContent = () => {
               <div className="absolute -top-4 -right-4 animate-bounce">
                 <Sparkles className="w-8 h-8 text-yellow-500" />
               </div>
+              {/* Cultural Elements */}
+              <div className="absolute -top-8 -left-8 text-4xl animate-pulse opacity-30">🕉️</div>
+              <div className="absolute -bottom-4 -right-8 text-3xl animate-pulse opacity-30">🇮🇳</div>
             </div>
           </div>
           
@@ -131,57 +180,75 @@ const IndexContent = () => {
             {t('all_in_one_platform')}
           </p>
           <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto animate-fade-in" style={{ animationDelay: '0.4s' }}>
-            {t('one_app_multiple_solutions')}
+            One App Multiple Solutions Infinite Impact
           </p>
 
+          {/* Smart Search Bar */}
+          <div className="mb-8 animate-fade-in" style={{ animationDelay: '0.5s' }}>
+            <SmartSearchBar onSearch={(query) => console.log('Search:', query)} />
+          </div>
+
+          {/* GPS Location Tracker */}
+          <div className="mb-8 animate-fade-in" style={{ animationDelay: '0.6s' }}>
+            <GPSLocationTracker onLocationFound={handleLocationFound} />
+          </div>
+
           {/* Enhanced Action Buttons */}
-          <div className="flex flex-wrap justify-center gap-4 mb-8 animate-fade-in" style={{ animationDelay: '0.6s' }}>
+          <div className="flex flex-wrap justify-center gap-4 mb-8 animate-fade-in" style={{ animationDelay: '0.7s' }}>
             <Button
               onClick={toggleAIHelp}
-              className="bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+              className="bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 relative overflow-hidden group"
             >
-              <Bot className="w-5 h-5 mr-2" />
-              {t('get_ai_help')}
+              <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
+              <Bot className="w-5 h-5 mr-2 relative z-10" />
+              <span className="relative z-10">{t('get_ai_help')}</span>
             </Button>
             
             <Button
               onClick={() => navigate('/modules')}
-              className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+              className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 relative overflow-hidden group"
             >
-              <Rocket className="w-5 h-5 mr-2" />
-              Launch Modules
+              <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
+              <Rocket className="w-5 h-5 mr-2 relative z-10" />
+              <span className="relative z-10">Launch Modules</span>
             </Button>
             
             <Button
               variant="outline" 
-              className="border-2 border-green-300 text-green-600 hover:bg-green-50 px-6 py-3 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+              className="border-2 border-green-300 text-green-600 hover:bg-green-50 px-6 py-3 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 relative overflow-hidden group"
             >
-              <Brain className="w-5 h-5 mr-2" />
-              Smart Features
+              <div className="absolute inset-0 bg-green-50 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+              <Brain className="w-5 h-5 mr-2 relative z-10" />
+              <span className="relative z-10">Smart Features</span>
             </Button>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-4 mb-8 animate-fade-in" style={{ animationDelay: '0.6s' }}>
-            <Badge variant="secondary" className="px-4 py-2 text-sm hover-scale transition-all duration-300 hover:shadow-lg bg-red-100 text-red-700 border border-red-200">
-              <Heart className="w-4 h-4 mr-2" />
-              {t('health')}
+          {/* Enhanced Badges with Cultural Colors */}
+          <div className="flex flex-wrap justify-center gap-4 mb-8 animate-fade-in" style={{ animationDelay: '0.8s' }}>
+            <Badge variant="secondary" className="px-4 py-2 text-sm hover-scale transition-all duration-300 hover:shadow-lg bg-red-100 text-red-700 border border-red-200 relative overflow-hidden group">
+              <div className="absolute inset-0 bg-gradient-to-r from-red-200/50 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+              <Heart className="w-4 h-4 mr-2 relative z-10" />
+              <span className="relative z-10">{t('health')}</span>
             </Badge>
-            <Badge variant="secondary" className="px-4 py-2 text-sm hover-scale transition-all duration-300 hover:shadow-lg bg-blue-100 text-blue-700 border border-blue-200">
-              <Scale className="w-4 h-4 mr-2" />
-              {t('legal_aid')}
+            <Badge variant="secondary" className="px-4 py-2 text-sm hover-scale transition-all duration-300 hover:shadow-lg bg-blue-100 text-blue-700 border border-blue-200 relative overflow-hidden group">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-200/50 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+              <Scale className="w-4 h-4 mr-2 relative z-10" />
+              <span className="relative z-10">{t('legal_aid')}</span>
             </Badge>
-            <Badge variant="secondary" className="px-4 py-2 text-sm hover-scale transition-all duration-300 hover:shadow-lg bg-green-100 text-green-700 border border-green-200">
-              <Briefcase className="w-4 h-4 mr-2" />
-              {t('employment')}
+            <Badge variant="secondary" className="px-4 py-2 text-sm hover-scale transition-all duration-300 hover:shadow-lg bg-green-100 text-green-700 border border-green-200 relative overflow-hidden group">
+              <div className="absolute inset-0 bg-gradient-to-r from-green-200/50 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+              <Briefcase className="w-4 h-4 mr-2 relative z-10" />
+              <span className="relative z-10">{t('employment')}</span>
             </Badge>
-            <Badge variant="secondary" className="px-4 py-2 text-sm hover-scale transition-all duration-300 hover:shadow-lg bg-orange-100 text-orange-700 border border-orange-200">
-              <AlertCircle className="w-4 h-4 mr-2" />
-              {t('civic_issues')}
+            <Badge variant="secondary" className="px-4 py-2 text-sm hover-scale transition-all duration-300 hover:shadow-lg bg-orange-100 text-orange-700 border border-orange-200 relative overflow-hidden group">
+              <div className="absolute inset-0 bg-gradient-to-r from-orange-200/50 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+              <AlertCircle className="w-4 h-4 mr-2 relative z-10" />
+              <span className="relative z-10">{t('civic_issues')}</span>
             </Badge>
           </div>
         </div>
 
-        <div className="animate-fade-in" style={{ animationDelay: '0.8s' }}>
+        <div className="animate-fade-in" style={{ animationDelay: '0.9s' }}>
           <StatsSection />
         </div>
       </section>
@@ -199,15 +266,16 @@ const IndexContent = () => {
             </div>
           </div>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-6">
-            Next-generation AI-powered solutions designed specifically for India's diverse needs with advanced machine learning and real-time analytics
+            Next-generation AI-powered solutions designed for India's diverse needs with advanced machine learning and cultural integration
           </p>
           <Button
             onClick={() => navigate('/modules')}
             variant="outline"
-            className="border-2 border-purple-300 text-purple-600 hover:bg-purple-50 px-6 py-2 rounded-full"
+            className="border-2 border-purple-300 text-purple-600 hover:bg-purple-50 px-6 py-2 rounded-full relative overflow-hidden group"
           >
-            View All Modules
-            <ArrowRight className="w-4 h-4 ml-2" />
+            <div className="absolute inset-0 bg-purple-50 scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+            <span className="relative z-10">View All Modules</span>
+            <ArrowRight className="w-4 h-4 ml-2 relative z-10" />
           </Button>
         </div>
 
@@ -215,7 +283,7 @@ const IndexContent = () => {
           {modules.map((module, index) => (
             <div 
               key={module.id} 
-              className="animate-fade-in" 
+              className="animate-fade-in hover:scale-105 transition-all duration-500" 
               style={{ animationDelay: `${0.2 * index}s` }}
             >
               <ModuleCard module={module} />
@@ -224,14 +292,14 @@ const IndexContent = () => {
         </div>
       </section>
 
-      {/* Enhanced Upcoming Features */}
+      {/* Enhanced Upcoming Features with Launch Capability */}
       <section className="container mx-auto px-4 pb-16">
         <div className="text-center mb-12 animate-fade-in">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
-            {t('coming_soon')}
+            {t('coming_soon')} - Now Available!
           </h2>
           <p className="text-lg text-gray-600">
-            Revolutionary modules to expand the AI ecosystem with cutting-edge technology
+            Revolutionary modules with cutting-edge AI technology and unique features
           </p>
         </div>
 
@@ -239,8 +307,9 @@ const IndexContent = () => {
           {upcomingModules.map((module, index) => (
             <Card 
               key={index} 
-              className="text-center p-6 hover:shadow-2xl transition-all duration-500 border-dashed border-2 border-gray-300 hover-scale animate-fade-in relative overflow-hidden group"
+              className="text-center p-6 hover:shadow-2xl transition-all duration-500 border border-gray-200 hover-scale animate-fade-in relative overflow-hidden group cursor-pointer"
               style={{ animationDelay: `${0.3 * index}s` }}
+              onClick={() => navigate(module.route)}
             >
               <div className={`absolute inset-0 bg-gradient-to-r ${module.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
               <CardContent className="pt-6 relative z-10">
@@ -249,26 +318,49 @@ const IndexContent = () => {
                 </div>
                 <h3 className="text-xl font-semibold text-gray-800 mb-2">{module.name}</h3>
                 <p className="text-gray-600 mb-4">{module.description}</p>
-                <Badge variant="outline" className="animate-pulse">
-                  <Zap className="w-3 h-3 mr-1" />
-                  AI Powered
-                </Badge>
+                
+                {/* Feature Pills */}
+                <div className="flex flex-wrap justify-center gap-2 mb-4">
+                  {module.features.map((feature, idx) => (
+                    <Badge key={idx} variant="outline" className="text-xs">
+                      {feature}
+                    </Badge>
+                  ))}
+                </div>
+
+                <div className="flex space-x-2">
+                  <Button 
+                    size="sm" 
+                    className={`flex-1 bg-gradient-to-r ${module.color} hover:opacity-90`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate(module.route);
+                    }}
+                  >
+                    <Rocket className="w-3 h-3 mr-1" />
+                    Launch
+                  </Button>
+                  <Badge variant="outline" className="animate-pulse px-2 py-1">
+                    <Zap className="w-3 h-3 mr-1" />
+                    Live
+                  </Badge>
+                </div>
               </CardContent>
             </Card>
           ))}
         </div>
       </section>
 
-      {/* Enhanced Technology Stack */}
+      {/* Enhanced Technology Stack with Cultural Integration */}
       <section className="bg-white/50 backdrop-blur-sm py-16 animate-fade-in relative">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-50/50 to-purple-50/50"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-orange-50/50 via-white/50 to-green-50/50"></div>
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-              Built with Next-Gen AI Technology
+              Built with Next-Gen AI & Indian Innovation
             </h2>
             <p className="text-lg text-gray-600">
-              Advanced AI, machine learning, and blockchain integration for a secure, scalable, and intelligent platform
+              Advanced AI, cultural integration, and cutting-edge technology for India's digital future
             </p>
           </div>
 
@@ -276,16 +368,17 @@ const IndexContent = () => {
             {[
               { icon: Globe, title: 'React & AI', desc: 'Modern frontend with GPT-4 integration', color: 'from-blue-500 to-cyan-500' },
               { icon: Shield, title: 'Blockchain Security', desc: 'Decentralized data protection', color: 'from-green-500 to-emerald-500' },
-              { icon: Mic, title: 'Voice AI', desc: 'Advanced speech recognition in 10+ languages', color: 'from-purple-500 to-pink-500' },
-              { icon: TrendingUp, title: 'Predictive Analytics', desc: 'Real-time insights and forecasting', color: 'from-orange-500 to-red-500' }
+              { icon: Mic, title: 'Voice AI', desc: 'Advanced speech recognition in 22+ Indian languages', color: 'from-purple-500 to-pink-500' },
+              { icon: TrendingUp, title: 'Predictive Analytics', desc: 'Real-time insights with cultural context', color: 'from-orange-500 to-red-500' }
             ].map((tech, index) => (
               <div 
                 key={index} 
-                className="text-center animate-fade-in hover-scale transition-all duration-300 group"
+                className="text-center animate-fade-in hover-scale transition-all duration-300 group cursor-pointer"
                 style={{ animationDelay: `${0.2 * index}s` }}
               >
-                <div className={`w-20 h-20 bg-gradient-to-r ${tech.color} rounded-full flex items-center justify-center mx-auto mb-4 hover:shadow-2xl transition-all duration-300 group-hover:rotate-12`}>
-                  <tech.icon className="w-10 h-10 text-white" />
+                <div className={`w-20 h-20 bg-gradient-to-r ${tech.color} rounded-full flex items-center justify-center mx-auto mb-4 hover:shadow-2xl transition-all duration-300 group-hover:rotate-12 relative overflow-hidden`}>
+                  <div className="absolute inset-0 bg-white/20 scale-0 group-hover:scale-100 transition-transform duration-300 rounded-full"></div>
+                  <tech.icon className="w-10 h-10 text-white relative z-10" />
                 </div>
                 <h3 className="font-bold text-gray-800 mb-2">{tech.title}</h3>
                 <p className="text-sm text-gray-600">{tech.desc}</p>

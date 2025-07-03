@@ -14,6 +14,9 @@ import SwasthyaMitra from "./pages/SwasthyaMitra";
 import KanoonSathi from "./pages/KanoonSathi";
 import SamasyaReport from "./pages/SamasyaReport";
 import ModuleLauncher from "./pages/ModuleLauncher";
+import PathShaalaPlus from "./pages/PathShaalaPlus";
+import KrishiBandhu from "./pages/KrishiBandhu";
+import AbleAccessMap from "./pages/AbleAccessMap";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -35,6 +38,9 @@ const App = () => (
             <Route path="/swasthya-mitra" element={<SwasthyaMitra />} />
             <Route path="/kanoon-sathi" element={<KanoonSathi />} />
             <Route path="/samasya-report" element={<SamasyaReport />} />
+            <Route path="/pathshaala-plus" element={<PathShaalaPlus />} />
+            <Route path="/krishi-bandhu" element={<KrishiBandhu />} />
+            <Route path="/able-access-map" element={<AbleAccessMap />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
