@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { TranslationProvider } from "@/contexts/TranslationContext";
+import EnhancedChatBot from "@/components/EnhancedChatBot";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -44,6 +45,9 @@ const App = () => (
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
+          
+          {/* Enhanced AI Chatbot - Available on all pages */}
+          <EnhancedChatBot />
         </BrowserRouter>
       </TooltipProvider>
     </TranslationProvider>

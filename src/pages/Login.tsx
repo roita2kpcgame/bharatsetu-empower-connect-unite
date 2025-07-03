@@ -15,9 +15,11 @@ import {
   Bot,
   Lock,
   Eye,
-  AlertTriangle
+  AlertTriangle,
+  User
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useToast } from '@/hooks/use-toast';
 import PhoneOTPLogin from '@/components/auth/PhoneOTPLogin';
 import EmailPasswordLogin from '@/components/auth/EmailPasswordLogin';
 import DigiLockerLogin from '@/components/auth/DigiLockerLogin';
@@ -25,21 +27,38 @@ import GoogleLogin from '@/components/auth/GoogleLogin';
 import HumanVerification from '@/components/auth/HumanVerification';
 import AIContextualHelp from '@/components/AIContextualHelp';
 import AIChat from '@/components/AIChat';
+import UserDashboard from '@/components/UserDashboard';
 import { useAdvancedAI } from '@/hooks/useAdvancedAI';
 
 const Login = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [activeTab, setActiveTab] = useState('phone');
   const [showHumanVerification, setShowHumanVerification] = useState(false);
   const [verificationLevel, setVerificationLevel] = useState<'basic' | 'advanced' | 'biometric'>('basic');
   const [isVerified, setIsVerified] = useState(false);
   const [loginAttempts, setLoginAttempts] = useState(0);
   const [showAIHelp, setShowAIHelp] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showUserDashboard, setShowUserDashboard] = useState(false);
   const { activateAI, isAIActive } = useAdvancedAI();
 
   React.useEffect(() => {
     activateAI('login');
   }, [activateAI]);
+
+  const handleSuccessfulLogin = () => {
+    setIsLoggedIn(true);
+    toast({
+      title: "Login Successful",
+      description: "Welcome back! You are now logged in to BharatSetu",
+    });
+    
+    // Navigate to account page after successful login
+    setTimeout(() => {
+      navigate('/account');
+    }, 1500);
+  };
 
   const handleLoginAttempt = () => {
     const newAttempts = loginAttempts + 1;
@@ -51,6 +70,9 @@ const Login = () => {
     } else if (newAttempts >= 2) {
       setVerificationLevel('basic');
       setShowHumanVerification(true);
+    } else {
+      // Simulate successful login for demo
+      handleSuccessfulLogin();
     }
   };
 
@@ -58,7 +80,7 @@ const Login = () => {
     setIsVerified(verified);
     setShowHumanVerification(false);
     if (verified) {
-      // Proceed with login
+      handleSuccessfulLogin();
       console.log('Human verification completed successfully');
     }
   };
@@ -75,14 +97,28 @@ const Login = () => {
       <div className="w-full max-w-6xl">
         {/* Header */}
         <div className="text-center mb-8">
-          <Button
-            variant="ghost"
-            onClick={() => navigate('/')}
-            className="absolute top-4 left-4 md:top-8 md:left-8"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back
-          </Button>
+          <div className="flex items-center justify-between mb-4">
+            <Button
+              variant="ghost"
+              onClick={() => navigate('/')}
+              className="absolute top-4 left-4 md:top-8 md:left-8"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back
+            </Button>
+            
+            {/* User Profile Button (shown when logged in) */}
+            {isLoggedIn && (
+              <Button
+                variant="outline"
+                onClick={() => setShowUserDashboard(true)}
+                className="absolute top-4 right-4 md:top-8 md:right-8 bg-gradient-to-r from-blue-500 to-purple-600 text-white border-0 hover:from-blue-600 hover:to-purple-700"
+              >
+                <User className="w-4 h-4 mr-2" />
+                My Dashboard
+              </Button>
+            )}
+          </div>
           
           <div className="flex items-center justify-center space-x-3 mb-4">
             <div className="w-12 h-12 bg-gradient-to-r from-orange-500 via-white to-green-500 rounded-full flex items-center justify-center border-2 border-gray-300">
@@ -281,6 +317,12 @@ const Login = () => {
         onClose={() => setShowAIHelp(false)}
       />
       <AIChat />
+      
+      {/* User Dashboard */}
+      <UserDashboard
+        isVisible={showUserDashboard}
+        onClose={() => setShowUserDashboard(false)}
+      />
     </div>
   );
 };
