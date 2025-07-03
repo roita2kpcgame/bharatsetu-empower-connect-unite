@@ -20,6 +20,15 @@ interface PerformanceMetrics {
   batteryEfficiency: number;
 }
 
+// Extend Performance interface to include memory property
+interface PerformanceWithMemory extends Performance {
+  memory?: {
+    usedJSHeapSize: number;
+    totalJSHeapSize: number;
+    jsHeapSizeLimit: number;
+  };
+}
+
 export const useFutureProofing = () => {
   const isMobile = useIsMobile();
   const [features, setFeatures] = useState<FutureProofFeatures>({
@@ -61,9 +70,10 @@ export const useFutureProofing = () => {
   const optimizePerformance = useCallback(() => {
     const startTime = performance.now();
     
-    // Memory optimization
-    if (performance.memory) {
-      const memoryInfo = performance.memory;
+    // Memory optimization with proper type checking
+    const performanceWithMemory = performance as PerformanceWithMemory;
+    if (performanceWithMemory.memory) {
+      const memoryInfo = performanceWithMemory.memory;
       const memoryUsagePercentage = (memoryInfo.usedJSHeapSize / memoryInfo.jsHeapSizeLimit) * 100;
       
       setPerformanceMetrics(prev => ({
