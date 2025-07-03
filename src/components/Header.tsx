@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from '@/contexts/TranslationContext';
+import GoogleTranslate from './GoogleTranslate';
 
 interface HeaderProps {
   isListening: boolean;
@@ -21,10 +22,10 @@ const Header = ({ isListening, onVoiceToggle }: HeaderProps) => {
   const navigate = useNavigate();
 
   return (
-    <header className="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50 animate-fade-in">
+    <header className="bg-white/95 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50 animate-fade-in shadow-sm">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          {/* Logo */}
+          {/* Logo - Removed Om symbol */}
           <div className="flex items-center space-x-3 group cursor-pointer hover-scale">
             <div className="w-10 h-10 bg-gradient-to-r from-orange-500 via-white to-green-500 rounded-full flex items-center justify-center border-2 border-gray-300 group-hover:shadow-lg transition-all duration-300 group-hover:rotate-12">
               <span className="text-blue-600 font-bold text-lg animate-pulse">भ</span>
@@ -41,8 +42,13 @@ const Header = ({ isListening, onVoiceToggle }: HeaderProps) => {
 
           {/* Controls */}
           <div className="flex items-center space-x-4">
-            {/* Language Selector */}
-            <div className="hidden md:flex items-center space-x-2 group">
+            {/* Google Translate Integration */}
+            <div className="hidden lg:block">
+              <GoogleTranslate />
+            </div>
+
+            {/* Language Selector - Fallback */}
+            <div className="hidden md:flex lg:hidden items-center space-x-2 group">
               <Globe className="w-4 h-4 text-gray-600 group-hover:text-blue-600 transition-colors duration-300" />
               <select 
                 value={language} 
