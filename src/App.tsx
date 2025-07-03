@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { TranslationProvider } from "@/contexts/TranslationContext";
 import EnhancedChatBot from "@/components/EnhancedChatBot";
+import SecurityDashboard from "@/components/SecurityDashboard";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -29,6 +30,9 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          {/* Advanced Security Dashboard - Always Visible */}
+          <SecurityDashboard />
+          
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/login" element={<Login />} />
