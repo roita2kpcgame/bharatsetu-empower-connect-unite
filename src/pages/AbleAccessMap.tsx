@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -12,7 +11,7 @@ import {
   ArrowLeft,
   Eye,
   Ear,
-  Wheelchair,
+  accessibility,
   Heart,
   Brain,
   Phone,
@@ -37,7 +36,7 @@ const AbleAccessMap = () => {
 
   const accessibilityFeatures = [
     { 
-      icon: Wheelchair, 
+      icon: accessibility, 
       title: 'Wheelchair Access', 
       desc: 'Find wheelchair-accessible routes and facilities',
       color: 'from-blue-500 to-cyan-600'
