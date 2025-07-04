@@ -36,10 +36,45 @@ const GoogleTranslate: React.FC = () => {
       setIsLoaded(true);
     };
 
+    // Add custom styles for Google Translate
+    const addCustomStyles = () => {
+      const style = document.createElement('style');
+      style.innerHTML = `
+        .google-translate-container .goog-te-gadget {
+          font-family: inherit !important;
+          font-size: 12px !important;
+        }
+        .google-translate-container .goog-te-gadget-simple {
+          background: transparent !important;
+          border: 1px solid #e2e8f0 !important;
+          border-radius: 6px !important;
+          padding: 4px 8px !important;
+          font-size: 12px !important;
+        }
+        .google-translate-container .goog-te-gadget-simple .goog-te-menu-value {
+          color: #374151 !important;
+          font-family: inherit !important;
+        }
+        .google-translate-container .goog-te-gadget-icon {
+          background-image: none !important;
+          margin-right: 4px !important;
+        }
+        .goog-te-banner-frame {
+          display: none !important;
+        }
+        body {
+          top: 0 !important;
+        }
+      `;
+      document.head.appendChild(style);
+    };
+
     if (!window.google) {
       addScript();
+      addCustomStyles();
     } else if (window.google.translate) {
       window.googleTranslateElementInit();
+      addCustomStyles();
     }
 
     return () => {
@@ -99,34 +134,6 @@ const GoogleTranslate: React.FC = () => {
           </Badge>
         </div>
       )}
-      
-      <style jsx>{`
-        .google-translate-container .goog-te-gadget {
-          font-family: inherit !important;
-          font-size: 12px !important;
-        }
-        .google-translate-container .goog-te-gadget-simple {
-          background: transparent !important;
-          border: 1px solid #e2e8f0 !important;
-          border-radius: 6px !important;
-          padding: 4px 8px !important;
-          font-size: 12px !important;
-        }
-        .google-translate-container .goog-te-gadget-simple .goog-te-menu-value {
-          color: #374151 !important;
-          font-family: inherit !important;
-        }
-        .google-translate-container .goog-te-gadget-icon {
-          background-image: none !important;
-          margin-right: 4px !important;
-        }
-        .goog-te-banner-frame {
-          display: none !important;
-        }
-        body {
-          top: 0 !important;
-        }
-      `}</style>
     </div>
   );
 };
