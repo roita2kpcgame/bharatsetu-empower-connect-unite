@@ -1,556 +1,479 @@
+export interface SocialProfile {
+  id: string;
+  platform: 'linkedin' | 'github' | 'twitter' | 'portfolio' | 'other';
+  url: string;
+  username?: string;
+  isVerified: boolean;
+  isPublic: boolean;
+}
 
-export interface JobSeeker {
+export interface Certification {
   id: string;
   name: string;
-  email: string;
-  phone: string;
-  location: string;
-  age: number;
-  education: Education[];
-  skills: Skill[];
-  experience: WorkExperience[];
-  preferences: JobPreferences;
-  resume?: string;
-  portfolio?: string;
-  socialProfiles: SocialProfile[];
-  certifications: Certification[];
-  aiProfile: AIJobSeekerProfile;
-}
-
-export interface Education {
-  id: string;
-  degree: string;
-  institution: string;
-  year: number;
-  grade: string;
-  specialization?: string;
-}
-
-export interface Skill {
-  id: string;
-  name: string;
-  level: 'beginner' | 'intermediate' | 'advanced' | 'expert';
-  verified: boolean;
-  endorsements: number;
-  category: 'technical' | 'soft' | 'language' | 'certification';
-}
-
-export interface WorkExperience {
-  id: string;
-  company: string;
-  position: string;
-  duration: {
-    start: string;
-    end?: string;
-  };
-  description: string;
+  issuingOrganization: string;
+  issueDate: string;
+  expiryDate?: string;
+  credentialId?: string;
+  credentialUrl?: string;
   skills: string[];
-  achievements: string[];
+  isVerified: boolean;
 }
 
-export interface JobPreferences {
-  jobTypes: string[];
-  industries: string[];
-  locations: string[];
-  salaryRange: {
-    min: number;
-    max: number;
-  };
-  workMode: 'remote' | 'onsite' | 'hybrid' | 'flexible';
-  availability: string;
-}
-
-export interface Job {
+export interface JobListing {
   id: string;
   title: string;
   company: string;
   location: string;
-  type: 'full-time' | 'part-time' | 'contract' | 'internship' | 'freelance';
-  salary: {
-    min: number;
-    max: number;
-  };
   description: string;
   requirements: string[];
   responsibilities: string[];
-  benefits: string[];
+  salaryRange: {
+    min: number;
+    max: number;
+  };
+  experienceLevel: 'entry' | 'mid' | 'senior';
+  employmentType: 'full-time' | 'part-time' | 'contract' | 'internship';
   postedDate: string;
-  deadline: string;
-  industry: string;
-  experienceLevel: 'entry' | 'mid' | 'senior' | 'executive';
-  workMode: 'remote' | 'onsite' | 'hybrid';
+  closingDate?: string;
+  contactEmail: string;
+  applyLink?: string;
   skills: string[];
-  aiMatchScore?: number;
-  applicationStatus?: 'not_applied' | 'applied' | 'shortlisted' | 'interviewed' | 'selected' | 'rejected';
+  benefits: string[];
+  isRemote: boolean;
+  isFeatured: boolean;
+  views: number;
+  applications: number;
+  companyLogo?: string;
 }
 
-export interface AIJobSeekerProfile {
-  strengths: string[];
-  weaknesses: string[];
-  careerSuggestions: string[];
-  skillGaps: SkillGap[];
-  marketValue: number;
-  competitiveAdvantage: string;
-  personalityType: string;
-  workStyle: string;
+export interface TrainingProgram {
+  id: string;
+  title: string;
+  description: string;
+  provider: string;
+  location: string;
+  startDate: string;
+  endDate: string;
+  duration: string;
+  cost: number;
+  eligibilityCriteria: string[];
+  skillsCovered: string[];
+  certificationOffered: boolean;
+  applicationDeadline: string;
+  contactEmail: string;
+  website?: string;
+  isOnline: boolean;
+  isSponsored: boolean;
+  seatsAvailable: number;
+  level: 'beginner' | 'intermediate' | 'advanced';
 }
 
-export interface SkillGap {
-  skill: string;
-  currentLevel: string;
-  requiredLevel: string;
-  learningPath: string[];
-  timeToAcquire: string;
-  importance: 'low' | 'medium' | 'high' | 'critical';
+export interface GovernmentScheme {
+  id: string;
+  name: string;
+  description: string;
+  ministry: string;
+  benefits: string[];
+  eligibilityCriteria: string[];
+  applicationProcess: string;
+  website: string;
+  startDate: string;
+  endDate?: string;
+  targetAudience: string[];
+  budgetAllocation: number;
+  successRate: number;
+  contactEmail: string;
+  helplineNumber: string;
+  isAccessibleOnline: boolean;
 }
 
-export interface CareerPath {
-  currentRole: string;
-  nextRoles: string[];
-  timeline: string;
-  skillsToAcquire: string[];
+export interface CareerCounselor {
+  id: string;
+  name: string;
+  specialization: string[];
+  experience: number;
+  qualifications: string[];
   certifications: string[];
-  experienceNeeded: string;
-  salaryProgression: number[];
+  languages: string[];
+  availability: {
+    days: string[];
+    hours: string;
+  };
+  contactEmail: string;
+  phone: string;
+  address: string;
+  rating: number;
+  reviews: number;
+  consultationFee: number;
+  isOnlineConsultationAvailable: boolean;
+  socialProfiles: SocialProfile[];
 }
 
-export interface InterviewPreparation {
-  commonQuestions: Array<{
-    question: string;
-    suggestedAnswer: string;
-    tips: string[];
-  }>;
-  technicalQuestions: Array<{
-    topic: string;
-    questions: string[];
-    resources: string[];
-  }>;
-  companySpecific: Array<{
-    company: string;
-    culture: string;
-    questions: string[];
-    tips: string[];
-  }>;
-}
-
-export interface SkillAssessment {
-  skillName: string;
-  score: number;
-  level: string;
-  strengths: string[];
-  improvements: string[];
-  certificationSuggestions: string[];
-  learningResources: string[];
+export interface UserProfile {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  address: string;
+  dateOfBirth: string;
+  gender: 'male' | 'female' | 'other';
+  educationLevel: string;
+  skills: string[];
+  experienceYears: number;
+  preferredJobTypes: string[];
+  resumeLink?: string;
+  socialProfiles: SocialProfile[];
+  certifications: Certification[];
+  interests: string[];
+  careerGoals: string[];
+  isSeekingJob: boolean;
+  lastUpdated: string;
 }
 
 export class YuvaRojgarService {
-  private static aiJobModel = 'advanced-career-ai-v3';
+  private static aiModel = 'yuva-rojgar-ai-v1';
 
-  static async getPersonalizedJobs(userId: string, preferences: JobPreferences): Promise<Job[]> {
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    return [
-      {
-        id: 'job_1',
-        title: 'Senior Software Developer',
-        company: 'TechCorp India',
-        location: 'Bangalore, Karnataka',
-        type: 'full-time',
-        salary: { min: 800000, max: 1200000 },
-        description: 'Join our dynamic team to build next-generation applications using cutting-edge technologies.',
-        requirements: [
-          '3+ years experience in React/Node.js',
-          'Strong problem-solving skills',
-          'Experience with cloud platforms (AWS/Azure)',
-          'Good communication skills'
-        ],
-        responsibilities: [
-          'Develop and maintain web applications',
-          'Collaborate with cross-functional teams',
-          'Code reviews and mentoring junior developers',
-          'Participate in architectural decisions'
-        ],
-        benefits: [
-          'Health insurance for family',
-          'Flexible working hours',
-          'Performance bonuses',
-          'Learning and development budget'
-        ],
-        postedDate: '2024-01-15',
-        deadline: '2024-02-15',
-        industry: 'Technology',
-        experienceLevel: 'mid',
-        workMode: 'hybrid',
-        skills: ['React', 'Node.js', 'JavaScript', 'AWS', 'MongoDB'],
-        aiMatchScore: 87
-      },
-      {
-        id: 'job_2',
-        title: 'Digital Marketing Manager',
-        company: 'GrowthMax Solutions',
-        location: 'Mumbai, Maharashtra',
-        type: 'full-time',
-        salary: { min: 600000, max: 900000 },
-        description: 'Lead our digital marketing initiatives and drive customer acquisition through innovative campaigns.',
-        requirements: [
-          '2+ years in digital marketing',
-          'Experience with Google Ads, Facebook Ads',
-          'Analytics and data-driven approach',
-          'Creative thinking and execution'
-        ],
-        responsibilities: [
-          'Plan and execute digital marketing campaigns',
-          'Manage social media presence',
-          'Analyze campaign performance',
-          'Collaborate with design and content teams'
-        ],
-        benefits: [
-          'Performance-based incentives',
-          'Health and wellness programs',
-          'Flexible work arrangements',
-          'Career growth opportunities'
-        ],
-        postedDate: '2024-01-20',
-        deadline: '2024-02-20',
-        industry: 'Marketing',
-        experienceLevel: 'mid',
-        workMode: 'hybrid',
-        skills: ['Digital Marketing', 'Google Ads', 'Social Media', 'Analytics'],
-        aiMatchScore: 73
-      },
-      {
-        id: 'job_3',
-        title: 'Data Scientist',
-        company: 'AI Innovations Ltd',
-        location: 'Hyderabad, Telangana',
-        type: 'full-time',
-        salary: { min: 1000000, max: 1500000 },
-        description: 'Work on cutting-edge AI/ML projects and help drive data-driven decision making.',
-        requirements: [
-          'Masters in Computer Science/Statistics',
-          'Experience with Python, R, SQL',
-          'Machine Learning and Deep Learning expertise',
-          'Strong analytical and problem-solving skills'
-        ],
-        responsibilities: [
-          'Develop machine learning models',
-          'Analyze large datasets for insights',
-          'Collaborate with engineering teams',
-          'Present findings to stakeholders'
-        ],
-        benefits: [
-          'Competitive salary and equity',
-          'Latest technology and tools',
-          'Conference and training budget',
-          'Flexible work environment'
-        ],
-        postedDate: '2024-01-25',
-        deadline: '2024-02-25',
-        industry: 'Technology',
-        experienceLevel: 'mid',
-        workMode: 'remote',
-        skills: ['Python', 'Machine Learning', 'SQL', 'Statistics', 'Deep Learning'],
-        aiMatchScore: 91
-      }
-    ];
-  }
-
-  static async analyzeSkillGaps(userId: string, targetRole: string): Promise<SkillGap[]> {
+  static async getRecommendedJobs(userProfile: UserProfile): Promise<JobListing[]> {
     await new Promise(resolve => setTimeout(resolve, 1500));
     
-    return [
+    const recommendedJobs: JobListing[] = [
       {
-        skill: 'Cloud Computing (AWS)',
-        currentLevel: 'beginner',
-        requiredLevel: 'intermediate',
-        learningPath: [
-          'AWS Fundamentals Course',
-          'Hands-on Labs and Projects',
-          'AWS Solutions Architect Certification',
-          'Real-world Project Implementation'
-        ],
-        timeToAcquire: '3-4 months',
-        importance: 'high'
+        id: 'job1',
+        title: 'Software Engineer',
+        company: 'TechCorp',
+        location: 'Bangalore',
+        description: 'Develop high-quality software solutions...',
+        requirements: ['Bachelor\'s degree in Computer Science', '3+ years of experience'],
+        responsibilities: ['Design, develop, and test software', 'Collaborate with team members'],
+        salaryRange: { min: 800000, max: 1500000 },
+        experienceLevel: 'mid',
+        employmentType: 'full-time',
+        postedDate: '2024-01-01',
+        closingDate: '2024-02-01',
+        contactEmail: 'hr@techcorp.com',
+        skills: ['Java', 'Python', 'SQL'],
+        benefits: ['Health insurance', 'Paid time off'],
+        isRemote: false,
+        isFeatured: true,
+        views: 1200,
+        applications: 150,
+        companyLogo: 'https://example.com/techcorp-logo.png'
       },
       {
-        skill: 'System Design',
-        currentLevel: 'none',
-        requiredLevel: 'intermediate',
-        learningPath: [
-          'System Design Fundamentals',
-          'Database Design Principles',
-          'Scalability Patterns',
-          'Practice with Mock Interviews'
-        ],
-        timeToAcquire: '2-3 months',
-        importance: 'critical'
-      },
-      {
-        skill: 'Leadership & Team Management',
-        currentLevel: 'beginner',
-        requiredLevel: 'intermediate',
-        learningPath: [
-          'Leadership Fundamentals Course',
-          'Team Management Workshops',
-          'Mentoring Junior Developers',
-          'Project Management Certification'
-        ],
-        timeToAcquire: '4-6 months',
-        importance: 'medium'
+        id: 'job2',
+        title: 'Data Analyst',
+        company: 'DataSolutions',
+        location: 'Mumbai',
+        description: 'Analyze large datasets to provide insights...',
+        requirements: ['Bachelor\'s degree in Statistics', '2+ years of experience'],
+        responsibilities: ['Collect and analyze data', 'Create reports and visualizations'],
+        salaryRange: { min: 600000, max: 1200000 },
+        experienceLevel: 'mid',
+        employmentType: 'full-time',
+        postedDate: '2024-01-05',
+        closingDate: '2024-02-05',
+        contactEmail: 'hr@datasolutions.com',
+        skills: ['SQL', 'Python', 'Tableau'],
+        benefits: ['Health insurance', 'Paid time off'],
+        isRemote: true,
+        isFeatured: false,
+        views: 900,
+        applications: 100,
+        companyLogo: 'https://example.com/datasolutions-logo.png'
       }
     ];
+
+    return recommendedJobs;
   }
 
-  static async generateCareerPath(currentRole: string, aspirations: string[]): Promise<CareerPath> {
+  static async getMatchingTrainingPrograms(userProfile: UserProfile): Promise<TrainingProgram[]> {
+    await new Promise(resolve => setTimeout(resolve, 1200));
+    
+    const matchingPrograms: TrainingProgram[] = [
+      {
+        id: 'training1',
+        title: 'Full Stack Web Development',
+        description: 'Learn full stack web development skills...',
+        provider: 'Coding Academy',
+        location: 'Delhi',
+        startDate: '2024-03-01',
+        endDate: '2024-06-01',
+        duration: '3 months',
+        cost: 50000,
+        eligibilityCriteria: ['Bachelor\'s degree', 'Basic programming knowledge'],
+        skillsCovered: ['HTML', 'CSS', 'JavaScript', 'React', 'Node.js'],
+        certificationOffered: true,
+        applicationDeadline: '2024-02-15',
+        contactEmail: 'info@codingacademy.com',
+        website: 'https://codingacademy.com',
+        isOnline: true,
+        isSponsored: false,
+        seatsAvailable: 50,
+        level: 'beginner'
+      },
+      {
+        id: 'training2',
+        title: 'Data Science Bootcamp',
+        description: 'Intensive data science training program...',
+        provider: 'DataCamp',
+        location: 'Mumbai',
+        startDate: '2024-04-01',
+        endDate: '2024-07-01',
+        duration: '3 months',
+        cost: 60000,
+        eligibilityCriteria: ['Bachelor\'s degree in Statistics', 'Basic programming knowledge'],
+        skillsCovered: ['Python', 'SQL', 'Machine Learning', 'Data Visualization'],
+        certificationOffered: true,
+        applicationDeadline: '2024-03-15',
+        contactEmail: 'info@datacamp.com',
+        website: 'https://datacamp.com',
+        isOnline: true,
+        isSponsored: false,
+        seatsAvailable: 40,
+        level: 'intermediate'
+      }
+    ];
+
+    return matchingPrograms;
+  }
+
+  static async getRelevantGovernmentSchemes(userProfile: UserProfile): Promise<GovernmentScheme[]> {
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    const relevantSchemes: GovernmentScheme[] = [
+      {
+        id: 'scheme1',
+        name: 'Pradhan Mantri Kaushal Vikas Yojana',
+        description: 'Skill development scheme for youth...',
+        ministry: 'Ministry of Skill Development and Entrepreneurship',
+        benefits: ['Skill training', 'Certification', 'Placement assistance'],
+        eligibilityCriteria: ['Indian citizen', 'Age 18-35'],
+        applicationProcess: 'Online application',
+        website: 'https://pmkvyofficial.org',
+        startDate: '2015-07-15',
+        targetAudience: ['Unemployed youth', 'School dropouts'],
+        budgetAllocation: 12000000000,
+        successRate: 0.75,
+        contactEmail: 'info@pmkvy.org',
+        helplineNumber: '1800-123-4567',
+        isAccessibleOnline: true
+      },
+      {
+        id: 'scheme2',
+        name: 'Startup India Seed Fund Scheme',
+        description: 'Financial assistance for startups...',
+        ministry: 'Department for Promotion of Industry and Internal Trade',
+        benefits: ['Seed funding', 'Mentorship', 'Incubation support'],
+        eligibilityCriteria: ['Startup recognized by DPIIT', 'Less than 2 years old'],
+        applicationProcess: 'Online application',
+        website: 'https://startupindia.gov.in',
+        startDate: '2021-04-01',
+        targetAudience: ['Early-stage startups'],
+        budgetAllocation: 9450000000,
+        successRate: 0.60,
+        contactEmail: 'info@startupindia.gov.in',
+        helplineNumber: '1800-11-5566',
+        isAccessibleOnline: true
+      }
+    ];
+
+    return relevantSchemes;
+  }
+
+  static async findCareerCounselors(userProfile: UserProfile): Promise<CareerCounselor[]> {
+    await new Promise(resolve => setTimeout(resolve, 800));
+    
+    const counselors: CareerCounselor[] = [
+      {
+        id: 'counselor1',
+        name: 'Rajesh Sharma',
+        specialization: ['Software Engineering', 'Data Science'],
+        experience: 10,
+        qualifications: ['Master\'s in Computer Science', 'Certified Career Counselor'],
+        certifications: ['Career Development Facilitator'],
+        languages: ['Hindi', 'English'],
+        availability: {
+          days: ['Monday', 'Wednesday', 'Friday'],
+          hours: '10:00 AM - 6:00 PM'
+        },
+        contactEmail: 'rajesh.sharma@example.com',
+        phone: '+91-9876543210',
+        address: 'Bangalore',
+        rating: 4.5,
+        reviews: 50,
+        consultationFee: 1000,
+        isOnlineConsultationAvailable: true,
+        socialProfiles: [
+          {
+            id: 'social1',
+            platform: 'linkedin',
+            url: 'https://linkedin.com/in/rajeshsharma',
+            username: 'rajeshsharma',
+            isVerified: true,
+            isPublic: true
+          }
+        ]
+      },
+      {
+        id: 'counselor2',
+        name: 'Priya Verma',
+        specialization: ['Marketing', 'Business Development'],
+        experience: 8,
+        qualifications: ['MBA', 'Certified Career Counselor'],
+        certifications: ['Global Career Development Facilitator'],
+        languages: ['Hindi', 'English'],
+        availability: {
+          days: ['Tuesday', 'Thursday', 'Saturday'],
+          hours: '11:00 AM - 7:00 PM'
+        },
+        contactEmail: 'priya.verma@example.com',
+        phone: '+91-9988776655',
+        address: 'Mumbai',
+        rating: 4.8,
+        reviews: 60,
+        consultationFee: 1200,
+        isOnlineConsultationAvailable: true,
+        socialProfiles: [
+          {
+            id: 'social2',
+            platform: 'linkedin',
+            url: 'https://linkedin.com/in/priyaverma',
+            username: 'priyaverma',
+            isVerified: true,
+            isPublic: true
+          }
+        ]
+      }
+    ];
+
+    return counselors;
+  }
+
+  static async analyzeUserProfile(profileData: any): Promise<{
+    strengths: string[];
+    weaknesses: string[];
+    opportunities: string[];
+    threats: string[];
+    aiInsights: string;
+    recommendedSkills: string[];
+    suggestedCareerPaths: string[];
+  }> {
     await new Promise(resolve => setTimeout(resolve, 1800));
     
     return {
-      currentRole,
-      nextRoles: [
-        'Senior Software Developer',
-        'Technical Lead',
-        'Engineering Manager',
-        'Principal Engineer'
+      strengths: [
+        'Strong analytical skills',
+        'Excellent communication skills',
+        'Proficient in programming languages'
       ],
-      timeline: '2-5 years progression path',
-      skillsToAcquire: [
-        'Advanced System Design',
-        'Cloud Architecture',
-        'Team Leadership',
-        'Product Management',
-        'Strategic Planning'
+      weaknesses: [
+        'Lack of experience in leadership roles',
+        'Limited knowledge of specific industry trends'
       ],
-      certifications: [
-        'AWS Solutions Architect',
-        'Google Cloud Professional',
-        'Scrum Master Certification',
-        'PMP Certification'
+      opportunities: [
+        'Growing demand for data scientists',
+        'Emerging technologies in AI and machine learning'
       ],
-      experienceNeeded: 'Lead 2-3 major projects, mentor junior developers, cross-functional collaboration',
-      salaryProgression: [800000, 1200000, 1800000, 2500000]
+      threats: [
+        'Increasing competition in the job market',
+        'Rapid technological advancements'
+      ],
+      aiInsights: 'Based on your profile, you have a strong foundation in technical skills. Focus on developing leadership abilities and staying updated with industry trends to enhance your career prospects.',
+      recommendedSkills: [
+        'Leadership skills',
+        'Industry-specific knowledge',
+        'Cloud computing'
+      ],
+      suggestedCareerPaths: [
+        'Data Scientist',
+        'Software Architect',
+        'Technology Consultant'
+      ]
     };
   }
 
-  static async getInterviewPreparation(jobId: string, userId: string): Promise<InterviewPreparation> {
+  static async generateResume(profile: UserProfile): Promise<string> {
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    const resumeContent = `
+      # ${profile.firstName} ${profile.lastName}
+      
+      ## Contact Information
+      - Email: ${profile.email}
+      - Phone: ${profile.phone}
+      - Address: ${profile.address}
+      
+      ## Summary
+      A highly motivated and skilled professional with ${profile.experienceYears} years of experience in ${profile.skills.join(', ')}. Seeking a challenging role in ${profile.preferredJobTypes.join(', ')} to leverage expertise and contribute to organizational success.
+      
+      ## Education
+      - ${profile.educationLevel}
+      
+      ## Skills
+      - ${profile.skills.join(', ')}
+      
+      ## Experience
+      - [Add your experience details here]
+      
+      ## Certifications
+      - ${profile.certifications.map(cert => cert.name).join(', ')}
+      
+      ## Social Profiles
+      - ${profile.socialProfiles.map(social => `${social.platform}: ${social.url}`).join(', ')}
+    `;
+
+    return resumeContent;
+  }
+
+  static async getJobMarketTrends(): Promise<{
+    emergingRoles: string[];
+    inDemandSkills: string[];
+    salaryTrends: { role: string; salaryRange: string }[];
+    aiInsights: string;
+  }> {
     await new Promise(resolve => setTimeout(resolve, 1200));
     
     return {
-      commonQuestions: [
-        {
-          question: 'Tell me about yourself',
-          suggestedAnswer: 'Focus on your professional journey, key achievements, and what makes you passionate about this role.',
-          tips: [
-            'Keep it concise (1-2 minutes)',
-            'Structure: Present → Past → Future',
-            'Align with job requirements',
-            'Practice out loud'
-          ]
-        },
-        {
-          question: 'What are your strengths and weaknesses?',
-          suggestedAnswer: 'Choose strengths relevant to the job and weaknesses you\'re actively working to improve.',
-          tips: [
-            'Provide specific examples',
-            'Show self-awareness',
-            'Demonstrate growth mindset',
-            'Be authentic'
-          ]
-        },
-        {
-          question: 'Why do you want to work here?',
-          suggestedAnswer: 'Research the company thoroughly and connect their values/mission with your career goals.',
-          tips: [
-            'Research company culture and values',
-            'Mention specific projects or initiatives',
-            'Show genuine interest',
-            'Connect to your career aspirations'
-          ]
-        }
+      emergingRoles: [
+        'AI/ML Engineer',
+        'Data Scientist',
+        'Cybersecurity Analyst'
       ],
-      technicalQuestions: [
-        {
-          topic: 'JavaScript/React',
-          questions: [
-            'Explain the virtual DOM and its benefits',
-            'What are React hooks and when would you use them?',
-            'How do you handle state management in large applications?'
-          ],
-          resources: [
-            'React Official Documentation',
-            'JavaScript MDN Web Docs',
-            'LeetCode for coding practice'
-          ]
-        },
-        {
-          topic: 'System Design',
-          questions: [
-            'Design a URL shortener like bit.ly',
-            'How would you scale a social media application?',
-            'Explain database sharding and its trade-offs'
-          ],
-          resources: [
-            'System Design Interview book',
-            'High Scalability blog',
-            'Design Patterns documentation'
-          ]
-        }
+      inDemandSkills: [
+        'Python',
+        'Data Analysis',
+        'Cloud Computing'
       ],
-      companySpecific: [
-        {
-          company: 'TechCorp India',
-          culture: 'Innovation-focused, collaborative, fast-paced startup environment',
-          questions: [
-            'How do you stay updated with latest technologies?',
-            'Describe a time you had to learn something new quickly',
-            'How do you handle tight deadlines?'
-          ],
-          tips: [
-            'Emphasize adaptability and learning agility',
-            'Show examples of innovation and problem-solving',
-            'Demonstrate teamwork and collaboration skills'
-          ]
-        }
-      ]
+      salaryTrends: [
+        { role: 'AI/ML Engineer', salaryRange: '₹8L - ₹25L' },
+        { role: 'Data Scientist', salaryRange: '₹6L - ₹20L' },
+        { role: 'Cybersecurity Analyst', salaryRange: '₹5L - ₹15L' }
+      ],
+      aiInsights: 'The job market is witnessing a surge in demand for AI and data science roles. Acquiring skills in these areas can significantly boost your career prospects.'
     };
   }
 
-  static async assessSkill(skillName: string, responses: Record<string, any>): Promise<SkillAssessment> {
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    return {
-      skillName,
-      score: Math.floor(Math.random() * 30) + 70,
-      level: 'Intermediate',
-      strengths: [
-        'Strong foundational knowledge',
-        'Good practical application skills',
-        'Problem-solving approach'
-      ],
-      improvements: [
-        'Advanced concepts understanding',
-        'Performance optimization techniques',
-        'Best practices implementation'
-      ],
-      certificationSuggestions: [
-        'AWS Certified Developer',
-        'React Professional Certification',
-        'JavaScript Advanced Certification'
-      ],
-      learningResources: [
-        'Advanced React Patterns Course',
-        'JavaScript Design Patterns',
-        'System Design for Frontend Developers',
-        'Performance Optimization Workshop'
-      ]
-    };
-  }
-
-  static async getGovernmentSchemes(category: string): Promise<Array<{
-    name: string;
-    description: string;
-    eligibility: string[];
-    benefits: string[];
-    applicationProcess: string[];
-    deadline: string;
-    website: string;
-  }>> {
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    return [
-      {
-        name: 'Pradhan Mantri Mudra Yojana',
-        description: 'Financial support for micro and small enterprises',
-        eligibility: [
-          'Age 18-65 years',
-          'Business plan required',
-          'No income limit',
-          'Indian citizen'
-        ],
-        benefits: [
-          'Loans up to ₹10 lakhs',
-          'No collateral required',
-          'Low interest rates',
-          'Flexible repayment'
-        ],
-        applicationProcess: [
-          'Visit nearest bank/NBFC',
-          'Submit application with documents',
-          'Business plan presentation',
-          'Loan approval and disbursement'
-        ],
-        deadline: 'Ongoing scheme',
-        website: 'https://www.mudra.org.in'
-      },
-      {
-        name: 'Stand-Up India Scheme',
-        description: 'Bank loans for SC/ST and women entrepreneurs',
-        eligibility: [
-          'SC/ST or Women entrepreneur',
-          'Age 18+ years',
-          'At least 51% stake in company',
-          'Greenfield enterprise'
-        ],
-        benefits: [
-          'Loans ₹10 lakh to ₹1 crore',
-          'Handholding support',
-          'Credit guarantee',
-          'Lower interest rates'
-        ],
-        applicationProcess: [
-          'Online application portal',
-          'Document verification',
-          'Business plan evaluation',
-          'Loan sanction and disbursement'
-        ],
-        deadline: 'Open till 2025',
-        website: 'https://www.standupmitra.in'
-      }
-    ];
-  }
-
-  static async optimizeResume(resumeText: string): Promise<{
-    optimizedResume: string;
-    improvements: string[];
-    atsScore: number;
-    keywords: string[];
+  static async getPersonalizedRecommendations(userProfile: UserProfile): Promise<{
+    jobRecommendations: JobListing[];
+    trainingRecommendations: TrainingProgram[];
+    schemeRecommendations: GovernmentScheme[];
+    counselorRecommendations: CareerCounselor[];
+    aiInsights: string;
   }> {
-    await new Promise(resolve => setTimeout(resolve, 2500));
+    await new Promise(resolve => setTimeout(resolve, 1500));
     
+    const jobRecommendations = await this.getRecommendedJobs(userProfile);
+    const trainingRecommendations = await this.getMatchingTrainingPrograms(userProfile);
+    const schemeRecommendations = await this.getRelevantGovernmentSchemes(userProfile);
+    const counselorRecommendations = await this.findCareerCounselors(userProfile);
+
     return {
-      optimizedResume: `AI-OPTIMIZED RESUME
-
-CONTACT INFORMATION
-[Improved formatting and professional email]
-
-PROFESSIONAL SUMMARY
-[AI-enhanced summary highlighting key achievements and skills]
-
-TECHNICAL SKILLS
-[Reorganized with relevant keywords and proficiency levels]
-
-WORK EXPERIENCE
-[Quantified achievements with metrics and impact]
-
-EDUCATION
-[Enhanced with relevant coursework and academic achievements]
-
-CERTIFICATIONS & PROJECTS
-[Added relevant certifications and portfolio projects]
-
-KEYWORDS OPTIMIZED FOR ATS SYSTEMS`,
-      
-      improvements: [
-        'Added quantifiable achievements with metrics',
-        'Improved keyword density for ATS compatibility',
-        'Enhanced professional summary with value proposition',
-        'Reorganized sections for better readability',
-        'Added relevant technical skills and certifications'
-      ],
-      atsScore: 85,
-      keywords: [
-        'JavaScript', 'React', 'Node.js', 'AWS', 'MongoDB',
-        'Agile', 'Scrum', 'Git', 'REST APIs', 'Team Leadership'
-      ]
+      jobRecommendations,
+      trainingRecommendations,
+      schemeRecommendations,
+      counselorRecommendations,
+      aiInsights: 'Based on your profile, we recommend focusing on roles in AI and data science. Consider enrolling in relevant training programs and leveraging government schemes for financial assistance.'
     };
   }
 }

@@ -1,3 +1,25 @@
+export interface EmergencyContact {
+  id: string;
+  name: string;
+  relationship: string;
+  phone: string;
+  email?: string;
+  address?: string;
+  isPrimary: boolean;
+}
+
+export interface InsuranceInfo {
+  id: string;
+  provider: string;
+  policyNumber: string;
+  groupNumber?: string;
+  coverageType: 'basic' | 'premium' | 'comprehensive';
+  validFrom: string;
+  validTo: string;
+  coverageAmount: number;
+  copayAmount?: number;
+  isActive: boolean;
+}
 
 export interface HealthProfile {
   id: string;
